@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine 💛</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: black;
+      color: orange;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+    .card {
+      max-width: 90%;
+      animation: fadeIn 0.6s ease;
+      position: relative;
+    }
+    button {
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background: orange;
+      color: black;
+      transition: transform 0.2s ease;
+      position: relative;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    .moving {
+      position: relative;
+    }
+    .tiny {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 10px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: floatUp 4s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity:1; }
+      100% { transform: translateY(-400px) rotate(360deg); opacity:0; }
+    }
+    #countdown {
+      margin-top: 20px;
+      font-size: 18px;
+      color: orange;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="app"></div>
+  <div id="countdown"></div>  <script>
+    const app = document.getElementById('app');
+
+    function createHeart(){
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.fontSize = (10 + Math.random()*20) + 'px';
+      heart.innerText = '❤️';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }
+    setInterval(createHeart, 800);
+
+    function screen(html){
+      app.innerHTML = html;
+    }
+
+    function start(){
+      screen(`
+        <h1>Megamind 🧠🧡</h1>
+        <h2>Will you be my Valentine?</h2>
+        <button onclick="loading()">Yes 😌</button>
+        <button class="moving" onmouseover="moveBtn(this)" onclick="loading()">Of course 🙄</button>
+        <div class="tiny">Wrong answer not available 😌</div>
+      `);
+    }
+
+    function moveBtn(btn){
+      btn.style.left = Math.random()*40-20 + 'px';
+      btn.style.top = Math.random()*40-20 + 'px';
+    }
+
+    function loading(){
+      screen(`<h2>Calculating feelings...</h2>`);
+      setTimeout(step1, 1800);
+    }
+
+    function step1(){
+      screen(`
+        <h2>Are you sure? 👀</h2>
+        <button onclick="step2()" title="Click me! 😏">Yes</button>
+        <button onclick="step2()" title="Megamind-approved 💛">Very sure</button>
+        <div class="tiny">Think carefully o 👀</div>
+      `);
+    }
+
+    function step2(){
+      screen(`
+        <h2>Are you REALLY sure? 🤨</h2>
+        <button onclick="step3()">Absolutely</button>
+        <button onclick="step3()">100% sure</button>
+        <div class="tiny">No refunds 😏</div>
+      `);
+    }
+
+    function step3(){
+      screen(`
+        <h2>Do you love me or do you LOVE me? 😌🧡</h2>
+        <button onclick="finale()">Love you</button>
+        <button onclick="finale()">LOVE you more</button>
+        <div class="tiny">Choose wisely 😌</div>
+      `);
+    }
+
+    function finale(){
+      screen(`
+        <h1>YAYYY 🎉</h1>
+        <h2>Megamind passed the test 🧡</h2>
+        <p>You’re officially my Valentine 😎</p>
+        <div class="tiny">Love, your favorite human</div>
+      `);
+    }
+
+    start();
+
+    // Valentine Countdown
+    const valentine = new Date('February 14, 2026 00:00:00').getTime();
+    const countdownEl = document.getElementById('countdown');
+
+    function updateCountdown(){
+      const now = new Date().getTime();
+      const distance = valentine - now;
+      if(distance < 0){
+        countdownEl.innerHTML = 'Happy Valentine\'s Day 🧡 Megamind! You\'re my forever!';
+        return;
+      }
+      const days = Math.floor(distance / (1000*60*60*24));
+      const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+      const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+      const seconds = Math.floor((distance%(1000*60))/1000);
+      countdownEl.innerHTML = `Valentine countdown: ${days}d ${hours}h ${minutes}m ${seconds}s 🧡`;
+    }
+
+    setInterval(updateCountdown,1000);
+  </script></body>
+  </html>
